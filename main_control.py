@@ -16,7 +16,8 @@ hands = mp_hands.Hands(max_num_hands=1, min_detection_confidence=0.7)
 cap = cv2.VideoCapture(0)
 
 # The actions mapped to your labels
-actions = ["Minimize", "Screenshot", "Start Menu", "Scroll Down", "Scroll Up", "Vol Up", "Vol Down", "Settings", "Chrome"]
+actions = ["Idle", "Screenshot", "Start Menu", "Scroll Down", "Scroll Up", 
+           "Vol Up", "Vol Down", "Settings", "Minimize", "Chrome"]
 
 print("AI Control Active! Show your hand...")
 
@@ -46,10 +47,11 @@ while cap.isOpened():
                             cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
                 
                 # --- TRIGGER ACTIONS ---
-                if gesture_name == "Minimize":
-                    pyautogui.hotkey('win', 'd')
+                if gesture_name == "Idle":
+                    pass
                 elif gesture_name == "Screenshot":
                     pyautogui.hotkey('win', 'prtscr')
+                    time.sleep(1)
                 elif gesture_name == "Start Menu":
                     time.sleep(0.2)
                     pyautogui.press('win')
@@ -61,13 +63,17 @@ while cap.isOpened():
                     pyautogui.press('volumeup')
                 elif gesture_name == "Vol Down":
                     pyautogui.press('volumedown')
+                elif gesture_name == "Settings":
+                    pyautogui.hotkey('win', 'i')
                 elif gesture_name == "Chrome":
-            # This sequence mimics you manually opening Chrome
                     pyautogui.press('win')
-                    time.sleep(0.2) # Small pause for the start menu to pop up
+                    time.sleep(0.3)
                     pyautogui.write('chrome')
-                    time.sleep(0.2)
+                    time.sleep(0.3)
                     pyautogui.press('enter')
+                    time.sleep(2)
+                elif gesture_name == "Minimize":
+                    pyautogui.hotkey('win', 'd')
     cv2.imshow('AI Gesture Control', image)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break

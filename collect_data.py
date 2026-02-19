@@ -12,7 +12,7 @@ mp_draw = mp.solutions.drawing_utils
 cap = cv2.VideoCapture(0)
 
 # CHANGE THIS LABEL (0-8) for each gesture you record!
-current_label = 8
+current_label = 9
 file_name = 'hand_data.csv'
 
 print(f"Recording for Label {current_label}. Press 's' to save, 'q' to quit.")

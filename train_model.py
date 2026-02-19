@@ -21,7 +21,7 @@ model = models.Sequential([
     layers.Dropout(0.2),
     layers.Dense(64, activation='relu'),
     layers.Dense(32, activation='relu'),
-    layers.Dense(9, activation='softmax') # 9 output classes for your 9 gestures
+    layers.Dense(10, activation='softmax') # 9 output classes for your 9 gestures
 ])
 
 model.compile(optimizer='adam', 

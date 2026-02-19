@@ -1,0 +1,5 @@
+[1] Open C.V
+[2] Mediapipe
+[3] NumPy
+[4] TensorFlow
+[5] PyAutoGUI
