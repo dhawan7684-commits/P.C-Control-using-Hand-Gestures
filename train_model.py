@@ -2,7 +2,9 @@ import pandas as pd
 import numpy as np
 import tensorflow as tf
 from sklearn.model_selection import train_test_split
-from tensorflow.keras import layers, models
+import tensorflow as tf
+from tensorflow import keras
+from keras import layers, models
 
 # 1. Load the data
 df = pd.read_csv('hand_data.csv', header=None)
@@ -14,7 +16,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 
 # 3. Build the CNN/Dense Model
 model = models.Sequential([
-    layers.Input(shape=(42,)), 
+    layers.Dense(128, activation='relu', input_shape=(42,)),
     layers.Dense(128, activation='relu'),
     layers.Dropout(0.2),
     layers.Dense(64, activation='relu'),
