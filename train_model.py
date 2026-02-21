@@ -1,37 +1,25 @@
 import pandas as pd
 import numpy as np
 import tensorflow as tf
-from sklearn.model_selection import train_test_split
-import tensorflow as tf
-from tensorflow import keras
-from keras import layers, models
+from sklearn.preprocessing import LabelEncoder
 
-# 1. Load the data
-df = pd.read_csv('hand_data.csv', header=None)
-X = df.iloc[:, 1:].values  # The 42 coordinates
-y = df.iloc[:, 0].values   # The Label (0-8)
+# Load data
+data = pd.read_csv('hand_data.csv', header=None)
+X = data.iloc[:, :-1].values.astype('float32')
+y = data.iloc[:, -1].values
 
-# 2. Split into Training (80%) and Testing (20%)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Encode labels (e.g., "Chrome" becomes 0, "Volume" becomes 1)
+encoder = LabelEncoder()
+y_encoded = encoder.fit_transform(y)
 
-# 3. Build the CNN/Dense Model
-model = models.Sequential([
-    layers.Dense(128, activation='relu', input_shape=(42,)),
-    layers.Dense(128, activation='relu'),
-    layers.Dropout(0.2),
-    layers.Dense(64, activation='relu'),
-    layers.Dense(32, activation='relu'),
-    layers.Dense(10, activation='softmax') # 9 output classes for your 9 gestures
+# Simple Model
+model = tf.keras.models.Sequential([
+    tf.keras.layers.Dense(64, activation='relu', input_shape=(42,)),
+    tf.keras.layers.Dense(32, activation='relu'),
+    tf.keras.layers.Dense(len(np.unique(y_encoded)), activation='softmax')
 ])
 
-model.compile(optimizer='adam', 
-              loss='sparse_categorical_crossentropy', 
-              metrics=['accuracy'])
-
-# 4. Train
-print("Starting training...")
-model.fit(X_train, y_train, epochs=50, batch_size=32, validation_data=(X_test, y_test))
-
-# 5. Save the brain!
+model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+model.fit(X, y_encoded, epochs=20)
 model.save('gesture_model.h5')
-print("Model saved as gesture_model.h5")
+print("Model Updated!")

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gesture Studio Pro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="dashboard">
+        <h1>Gesture Studio + LLM</h1>
+        <div class="grid">
+            <div class="card">
+                <h3>1. Record (20s)</h3>
+                <form action="/record" method="POST">
+                    <input type="text" name="name" placeholder="Gesture Name" required>
+                    <button type="submit">Record</button>
+                </form>
+            </div>
+            <div class="card">
+                <h3>2. Set LLM Intent</h3>
+                <form action="/save_intent" method="POST">
+                    <select name="name">
+                        {% for name in gestures %}<option value="{{ name }}">{{ name }}</option>{% endfor %}
+                    </select>
+                    <input type="text" name="intent" placeholder="e.g. Take a screenshot" required>
+                    <button type="submit">Save Goal</button>
+                </form>
+            </div>
+            <div class="card">
+                <h3>3. Control</h3>
+                <form action="/train" method="POST"><button>Train Brain</button></form>
+                <form action="/start" method="POST"><button style="background:green">Start</button></form>
+                <form action="/stop" method="POST"><button style="background:red">Stop</button></form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
